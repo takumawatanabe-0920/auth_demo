@@ -12,6 +12,8 @@ echo ""
 # 認証コードの取得
 CODE=$QUERY_STRING
 
+echo $QUERY_STRING
+
 # Googleからトークンを取得
 TOKEN_RESPONSE=$(curl -s -X POST \
   -d code=${CODE} \
@@ -21,8 +23,14 @@ TOKEN_RESPONSE=$(curl -s -X POST \
   -d grant_type=authorization_code \
   https://oauth2.googleapis.com/token)
 
+echo 'TOKEN_RESPONSE'
+echo $TOKEN_RESPONSE
+
 # アクセストークンの抽出
-ACCESS_TOKEN=$(echo $TOKEN_RESPONSE | grep -o '"access_token":"[^"]*' | grep -o '[^"]*$')
+ACCESS_TOKEN=$(echo $TOKEN_RESPONSE | grep -o '"access_token": "[^"]*' | cut -d'"' -f4)
+
+echo 'ACCESS_TOKEN'
+echo $ACCESS_TOKEN
 
 # ユーザー情報を取得
 USER_INFO=$(curl -s -H "Authorization: Bearer ${ACCESS_TOKEN}" https://www.googleapis.com/oauth2/v2/userinfo)
