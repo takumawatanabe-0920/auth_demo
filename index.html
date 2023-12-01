@@ -1,35 +1,26 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Google OAuth Demo</title>
-  </head>
+<html>
   <body>
-    <h1>Google OAuth 2.0 Authentication Demo</h1>
-    <a href="/auth/google">Login with Google</a>
-
-    <div id="user-info" style="margin-top: 20px;"></div>
+    <a href="#" id="google-auth-link">Googleでログイン</a>
 
     <script>
-      window.onload = function() {
-        const params = new URLSearchParams(window.location.search)
-        const userInfoParam = params.get('user')
-        if (userInfoParam) {
-          const userInfo = JSON.parse(decodeURIComponent(userInfoParam))
-          console.log({ userInfo })
-          displayUserInfo(userInfo)
-          window.history.replaceState({}, document.title, '/') // URLからクエリパラメータを削除
-        }
-      }
+      document
+        .getElementById('google-auth-link')
+        .addEventListener('click', function(e) {
+          e.preventDefault()
+          window.location.href = googleOAuthURL()
+        })
 
-      function displayUserInfo(userInfo) {
-        const userInfoDiv = document.getElementById('user-info')
-        userInfoDiv.innerHTML = `
-      <p><strong>Name:</strong> ${userInfo.name}</p>
-      <p><strong>Email:</strong> ${userInfo.email}</p>
-      <img src="${userInfo.picture}" alt="Profile Picture" />
-  `
+      function googleOAuthURL() {
+        const googleConfig = {
+          clientId:
+            '658478798216-td0kduh6um8appipkc7psv799d8kmplt.apps.googleusercontent.com',
+          redirect: 'http://localhost:3000/auth/google/callback',
+        }
+
+        const url = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${googleConfig.clientId}&redirect_uri=${googleConfig.redirect}&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&access_type=offline`
+        console.log({ url })
+        return url
       }
     </script>
   </body>
