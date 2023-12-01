@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <a href="#" id="google-auth-link">Googleでログイン</a>
+    <a href="#" id="google-auth-link">Google Login</a>
+
+    <div id="user-info" style="margin-top: 20px;"></div>
 
     <script>
+      window.onload = function() {
+        const params = new URLSearchParams(window.location.search)
+        const userInfoParam = params.get('user')
+        if (userInfoParam) {
+          const userInfo = JSON.parse(decodeURIComponent(userInfoParam))
+          console.log({ userInfo })
+          displayUserInfo(userInfo)
+          window.history.replaceState({}, document.title, '/') // URLからクエリパラメータを削除
+        }
+      }
+
+      function displayUserInfo(userInfo) {
+        const userInfoDiv = document.getElementById('user-info')
+        userInfoDiv.innerHTML = `
+      <p><strong>Name:</strong> ${userInfo.name}</p>
+      <p><strong>Email:</strong> ${userInfo.email}</p>
+      <img src="${userInfo.picture}" alt="Profile Picture" />
+  `
+      }
+
       document
         .getElementById('google-auth-link')
         .addEventListener('click', function(e) {
