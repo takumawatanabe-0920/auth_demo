@@ -1,0 +1,36 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Google OAuth Demo</title>
+  </head>
+  <body>
+    <h1>Google OAuth 2.0 Authentication Demo</h1>
+    <a href="/auth/google">Login with Google</a>
+
+    <div id="user-info" style="margin-top: 20px;"></div>
+
+    <script>
+      window.onload = function() {
+        const params = new URLSearchParams(window.location.search)
+        const userInfoParam = params.get('user')
+        if (userInfoParam) {
+          const userInfo = JSON.parse(decodeURIComponent(userInfoParam))
+          console.log({ userInfo })
+          displayUserInfo(userInfo)
+          window.history.replaceState({}, document.title, '/') // URLからクエリパラメータを削除
+        }
+      }
+
+      function displayUserInfo(userInfo) {
+        const userInfoDiv = document.getElementById('user-info')
+        userInfoDiv.innerHTML = `
+      <p><strong>Name:</strong> ${userInfo.name}</p>
+      <p><strong>Email:</strong> ${userInfo.email}</p>
+      <img src="${userInfo.picture}" alt="Profile Picture" />
+  `
+      }
+    </script>
+  </body>
+</html>
