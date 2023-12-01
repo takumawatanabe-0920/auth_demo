@@ -7,23 +7,41 @@
 
     <script>
       window.onload = function() {
-        const params = new URLSearchParams(window.location.search)
-        const userInfoParam = params.get('user')
-        if (userInfoParam) {
-          const userInfo = JSON.parse(decodeURIComponent(userInfoParam))
-          console.log({ userInfo })
-          displayUserInfo(userInfo)
-          window.history.replaceState({}, document.title, '/') // URLからクエリパラメータを削除
+        if (document.location.href.includes('code')) {
+          // we have a code
+          console.log('got a code!!')
+          // Retrieve access token with custom api
+          var params = new URLSearchParams(location.search)
+          var code = params.get('code')
+          console.log({ code })
+          fetch(
+            `https://learn.operatoroverload.com/~jmadar/oauth/code.sh?${code}`
+          )
+            .then((respond) => {
+              console.log({ respond })
+              if (respond.status == 200) {
+                return respond.json()
+              } else {
+                throw 'Cannot get token'
+              }
+            })
+            .then((json) => {
+              console.log(json)
+              displayUserInfo(json)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
         }
       }
 
       function displayUserInfo(userInfo) {
         const userInfoDiv = document.getElementById('user-info')
         userInfoDiv.innerHTML = `
-      <p><strong>Name:</strong> ${userInfo.name}</p>
-      <p><strong>Email:</strong> ${userInfo.email}</p>
-      <img src="${userInfo.picture}" alt="Profile Picture" />
-  `
+            <p><strong>Name:</strong> ${userInfo.name}</p>
+            <p><strong>Email:</strong> ${userInfo.email}</p>
+            <img src="${userInfo.picture}" alt="Profile Picture" />
+        `
       }
 
       document
