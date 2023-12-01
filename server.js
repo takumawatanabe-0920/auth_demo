@@ -8,9 +8,9 @@ const port = 3000
 // Google OAuth 2.0設定
 const googleConfig = {
   clientId:
-    '658478798216-td0kduh6um8appipkc7psv799d8kmplt.apps.googleusercontent.com',
-  clientSecret: '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',
-  redirect: 'http://localhost:3000/auth/google/callback',
+    '909058914711-ocul6dalboo5mh613fmvegs2vrd2g2lj.apps.googleusercontent.com',
+  clientSecret: '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',
+  redirect: 'https://learn.operatoroverload.com/~htakaya00/oauth/',
 }
 
 console.log({ googleConfig })

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Google OAuth設定
-CLIENT_ID='658478798216-td0kduh6um8appipkc7psv799d8kmplt.apps.googleusercontent.com'
-CLIENT_SECRET='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'
-REDIRECT_URI='http://localhost:3000/auth/google/callback'
+CLIENT_ID='909058914711-ocul6dalboo5mh613fmvegs2vrd2g2lj.apps.googleusercontent.com'
+CLIENT_SECRET='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'
+REDIRECT_URI='https://learn.operatoroverload.com/~htakaya00/oauth/'
 
 # HTTPレスポンスヘッダー
 echo "Content-type: application/json"
